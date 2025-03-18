@@ -133,6 +133,79 @@ class Tree {
     }
   }
 
+  levelOrder(callback) {
+    if (typeof callback != "function") {
+      throw new Error("Callback is required");
+    }
+    let queue = [this.root];
+
+    while (queue.length) {
+      let currentNode = queue.shift(); //Gets the first node from the queue FIFO.
+      callback(currentNode);
+
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+    }
+  }
+
+  inOrder(callback) {
+    if (typeof callback != "function") {
+      throw new Error("Callback is required");
+    }
+
+    let stack = [];
+    let current = this.root;
+
+    while (current !== null || stack.length > 0) {
+      while (current !== null) {
+        stack.push(current); // Push the value of the node to the stack
+        current = current.left; //Go completely to the left side
+      }
+      console.table(stack)
+      //At this point current is equal to NULL as you're at the bottom left
+      //Take the element from the top of the stack
+      current = stack.pop();
+      callback(current);
+      current = current.right;
+    }
+  }
+  preOrder(callback) {
+    if (typeof callback != "function") {
+      throw new Error("Callback is required");
+    }
+
+    let stack = [this.root];
+
+    while (stack.length) {
+      let currentNode = stack.pop(); //Get the last element from the stack. LIFO
+      callback(currentNode);
+
+      if (currentNode.right) {
+        stack.push(currentNode.right);
+      }
+      if (currentNode.left) {
+        stack.push(currentNode.left);
+      }
+    }
+  }
+  find(value) {
+    let current = this.root;
+    while (current !== null) {
+      if (current.data > value) {
+        current = current.left;
+      } else if (current.data < value) {
+        current = current.right;
+      } else {
+        return current;
+      }
+    }
+
+    return null;
+  }
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -155,5 +228,8 @@ const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const tree = new Tree(array);
 
+// console.log(tree.find(0));
 // tree.deleteItem(67);
 tree.prettyPrint(tree.root);
+
+tree.inOrder((node) => console.log(node.data));
