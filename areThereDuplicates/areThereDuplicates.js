@@ -1,21 +1,14 @@
-function areThereDuplicates() {
-  // good luck. (supply any arguments you deem necessary.)
-
-  const frequency = {};
-
-  for (let key of arguments) {
-
-    frequency[key] = (frequency[key] || 0) + 1;
-    
-    if (frequency[key] > 1) {
-      console.log("True - Duplicates");
-
-      return true;
+    function areThereDuplicates() {
+      let collection = {}
+      for (let val in arguments) {
+        const key = arguments[val]
+        collection[key] = (collection[key] || 0) + 1
+      }
+      for (let key in collection) {
+        if (collection[key] > 1) return true
+      }
+      return false;
     }
-  }
-  console.log("False - no duplicates");
-  return false;
-}
 
 areThereDuplicates(1, 2, 3); // false
 areThereDuplicates(1, 2, 2); // true
