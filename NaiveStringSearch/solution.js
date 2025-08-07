@@ -3,12 +3,8 @@ function naiveStringSearch(str, substr) {
   for (let i = 0; i < str.length; i++) {
     if (str[i] === substr[0]) {
       for (let j = 1; j < substr.length; j++) {
-        if (substr[j] !== str[i + j]) {
-          break;
-        }
-        if (j == substr.length - 1) {
-          counter++;
-        }
+        if (substr[j] !== str[i + j]) break;
+        if (j == substr.length - 1) counter++;
       }
     }
   }
