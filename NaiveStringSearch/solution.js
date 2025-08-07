@@ -6,8 +6,8 @@ function naiveStringSearch(str, substr) {
         if (substr[j] !== str[i + j]) {
           break;
         }
-        if(j==2){
-            counter++;
+        if (j == substr.length - 1) {
+          counter++;
         }
       }
     }
@@ -15,4 +15,5 @@ function naiveStringSearch(str, substr) {
   return counter;
 }
 
-console.log(naiveStringSearch("wowomgzomgomomomg", "omg"))
+console.log(naiveStringSearch("wowomgzomgomomomg", "omg"));
+console.log(naiveStringSearch("lorie loled", "lol"));
