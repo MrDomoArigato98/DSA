@@ -22,7 +22,7 @@ function merge(arr1, arr2) {
 }
 
 function mergeSort(arr) {
-  if (arr.length === 1) {
+  if (arr.length <= 1) {
     return arr;
   }
   const middle = Math.floor(arr.length / 2);
