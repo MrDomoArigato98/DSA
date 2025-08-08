@@ -21,15 +21,15 @@ function merge(arr1, arr2) {
   return res;
 }
 
-function sort(arr) {
+function mergeSort(arr) {
   if (arr.length === 1) {
     return arr;
   }
   const middle = Math.floor(arr.length / 2);
-  const left = sort(arr.slice(0, middle));
-  const right = sort(arr.slice(middle, arr.length));
+  const left = mergeSort(arr.slice(0, middle));
+  const right = mergeSort(arr.slice(middle, arr.length));
 
   return merge(left, right);
 }
 
-console.log(sort([1, 2,999,10000,2,-1,-50,-49, 1, 2, 3, 5, 5, 1, 2, 3, 3, 5, 6, 7, 8, 9, 10]));
+console.log(mergeSort([1, 2,999,10000,2,-1,-50,-49, 1, 2, 3, 5, 5, 1, 2, 3, 3, 5, 6, 7, 8, 9, 10]));
