@@ -16,8 +16,6 @@ API Returns this
 
 */
 
-const { log } = require("node:console");
-
 const WEBSITE_URL = "http://localhost:3000/products";
 const MAX_COUNT = 1000;
 const MIN_PRICE = 0;
