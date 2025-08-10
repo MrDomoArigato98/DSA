@@ -20,14 +20,24 @@ const WEBSITE_URL = "http://localhost:3000/products";
 const MAX_COUNT = 1000;
 const MIN_PRICE = 0;
 const MAX_PRICE = 100000;
-
-async function fetchData(min, max) {
-  //Here we fetch from the API
+const DEFAULT_TIMEOUT = 3000;
+async function fetchData(min, max, timeoutMs = DEFAULT_TIMEOUT) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, timeoutMs);
   try {
     const res = await fetch(`${WEBSITE_URL}?minPrice=${min}&maxPrice=${max}`);
-    return await res.json();
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      return await res.json();
+    } else {
+      console.error(`HTTP Error: ${res.status} ${res.statusText}`);
+    }
   } catch (error) {
-    throw new Error(`Failed to get data: ${error.message}`);
+
+  }finally{
+    clearTimeout(timeoutId)
   }
 }
 
@@ -55,7 +65,6 @@ async function main() {
     const products = await getProducts(MIN_PRICE, MAX_PRICE);
     products.sort(sortProducts);
     console.log(products);
-    
   } catch (error) {
     throw new Error(`Failed to get products: ${error.message}`);
   }
