@@ -107,20 +107,31 @@ async function fetchWithOffset(offset, limit) {
 }
 
 async function getWithOffset(limit) {
+  const seenIds = new Set();
+  const unique = [];
+
+  function addBatch(products) {
+    for (const p of products) {
+      if (!p?.id) continue;
+      if (seenIds.has(p.id)) continue;
+      seenIds.add(p.id);
+      unique.push(p);
+    }
+  }
   const first = await fetchWithOffset(0, limit);
   let offset = first.items.length;
-  const products = [...first.items];
+  addBatch(first.items)
 
   while (true) {
     const res = await fetchWithOffset(offset, limit);
     if (!res.items || res.items.length === 0) break;
     offset += res.items.length;
-    products.push(...res.items);
-
+    addBatch(res.items);
+    console.log(unique);
     if (res.items.length < limit) break;
   }
-  console.log(products)
-  return products;
+  
+  return unique;
 }
 
 //Main function
